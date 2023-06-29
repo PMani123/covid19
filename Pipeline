@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    stages{
+        stage("load data"){
+            steps{
+                sh 'python3 load_data.py'
+            }
+        }
+        stage("data analysis"){
+            steps{
+                sh 'python3 data_analysis.py'
+            }
+        }
+        stage("data preprocessing"){
+            steps{
+                sh 'python3 data_cleaning.py'
+            }
+        }
+        stage("data visualization"){
+            steps{
+                sh 'python3 data_visualization.py'
+            }
+        }
+        stage("feature engineering"){
+            steps{
+                sh 'python3 feature_engineering.py'
+            }
+        }
+        stage("feature selection"){
+            steps{
+                sh 'python3 feature_selection.py'
+            }
+        }
+    }
+    post{   
+        always {
+            archiveArtifacts artifacts: 'covid_cleaned_dataset.csv', onlyIfSuccessful: true
+        }
+            }
+}
